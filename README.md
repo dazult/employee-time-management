@@ -1,4 +1,4 @@
-timekeeping
+Employee Time Management
 ===========
 
 Django Employee Time Management app.
