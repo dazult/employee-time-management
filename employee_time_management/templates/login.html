@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Mgnt Loggin{% endblock %}
+	{% block content %}
+	<div id="mgnt-login">
+		<form action="/auth_view/" method="post">{% csrf_token %}
+		  <fieldset>
+			<legend>Management Login</legend>
+			<div></div>
+			<table>
+				<tr>
+					<td>Employee ID:</td>
+					<td> <input type="text" name="employee_id"></td>
+				</tr>
+				<tr>
+					<td>Password:</td>
+					<td><input type="password" name="password"></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td><input type="submit" name="login" value="Login"></td>
+				</tr>
+			</table>
+			<div>{{ error_message }}</div>
+		  </fieldset>
+		</form>
+	</div>
+{% endblock %}
+

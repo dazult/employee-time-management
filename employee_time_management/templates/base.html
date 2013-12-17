@@ -1,0 +1,36 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>{% block title %}{% endblock %}</title>
+		<link rel="stylesheet" type="text/css" href="{% static 'assets/css/master.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'assets/css/jquery.ui.all.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'assets/css/demos.css' %}">
+		<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+		<!-- Date and time picker -->
+		<link rel="stylesheet" type="text/css" href="{% static 'assets/css/timepicker/jquery.timepicker.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'assets/css/timepicker/base.css' %}">
+		<!-- DataTables -->
+		<link rel="stylesheet" type="text/css" href="{% static 'assets/css/datatables/demo_page.css' %}">
+ 		<link rel="stylesheet" type="text/css" href="{% static 'assets/css/datatables/demo_table_jui.css' %}">
+	</head>
+	<body>
+{% block content %}{% endblock %}
+	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+	<!-- Date and time picker -->
+	<script src="{% static 'assets/js/timepicker/jquery.timepicker.js' %}"></script>
+	<!-- DataTables -->
+	<script src="{% static 'assets/js/datatables/jquery.dataTables.js' %}"></script>
+	<!--CONFLICT?? <script src="{% static 'assets/js/timepicker/base.js' %}"></script>-->
+	{% block javascript_footer %}<!--
+		<script src="{% static 'assets/js/jquery-1.9.1.js' %}"></script><!--
+		<script src="{% static 'assets/js/ui/jquery-ui-1.10.3.custom.min.js' %}"></script>
+		
+		<script src="{% static 'assets/js/ui/jquery.ui.core.js' %}"></script>
+		<script src="{% static 'assets/js/ui/jquery.ui.widget.js' %}"></script>
+		<script src="{% static 'assets/js/ui/jquery.ui.tabs.js' %}"></script>-->
+	{% endblock %}
+	</body>
+</html>

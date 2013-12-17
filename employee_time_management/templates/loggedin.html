@@ -1,0 +1,215 @@
+{% extends "base.html" %}
+{% block title %}Loggedin{% endblock %}
+{% block content %}
+	<div id="content-loggedin">
+		<div id="loggedin">Logged in: {{ full_name }}</div>
+		<div>{{ error_message }}</div>
+		<div>{{ article.likes }}</div>
+		<div id="tabs">
+			<ul>
+				<li><a href="#tabs-1">Timesheets</a></li>
+				<li><a href="#tabs-2">Holiday Requests</a></li>
+				<li><a href="#tabs-3">Sick Leave</a></li>
+				<li><a href="#tabs-4">Clock In/Out Employee</a></li>
+				<li><a href="#tabs-5">Enter Employee Sick leave</a></li>
+			</ul>
+			<div id="tabs-1">
+				<table id="table1_id" class="display">
+				  <thead>
+					<tr>
+					  <th colspan="7">Timesheets</th>
+					</tr>
+					<tr>
+					  <th>Employee</th>
+					  <th>Recorded by</th>
+					  <th>Recorded Datetime</th>
+					  <th>Clocking Time</th>
+					  <th>logging</th>
+					  <th>IP Address</th>
+					  <th>Comments</th>
+					</tr>
+				  </thead>
+					{% for timesheet in timesheets %}
+					  <tbody> 
+						<tr>
+						  <td>{{ timesheet.employee }}</td>
+						  <td>{{ timesheet.recorded_by }}</td>
+						  <td>{{ timesheet.recorded_datetime }}</td>
+						  <td>{{ timesheet.clocking_time }}</td>
+						  <td>{{ timesheet.logging }}</td>
+						  <td>{{ timesheet.ip_address }}</td>
+						  <td>{{ timesheet.comments }}</td>
+						</tr>
+					  </tbody>
+					{% endfor %}
+				</table>
+			</div>
+			<div id="tabs-2">
+				<table id="table2_id" class="display">
+					  <thead>
+						<tr>
+						  <th colspan="7">Holiday Requests</th>
+						</tr>
+						<tr>
+						  <th>Employee</th>
+						  <th>Recorded by</th>
+						  <th>Recorded Datetime</th>
+						  <th>Status</th>
+						  <th>Date and Time From</th>
+						  <th>Date and Time To</th>
+						  <th>Comments</th>
+						  <th>Action</th>
+						</tr>
+					  </thead>
+					{% for holiday_request in holiday_requests %}
+					  <tbody> 
+						<tr>
+						  <td>{{ holiday_request.employee }}</td>
+						  <td>{{ holiday_request.recorded_by }}</td>
+						  <td>{{ holiday_request.recorded_datetime }}</td>
+						  <td>{{ holiday_request.get_status_display }}</td>
+						  <td>{{ holiday_request.date_from }}</td>
+						  <td>{{ holiday_request.date_to }}</td>
+						  <td>{{ holiday_request.comments }}</td>
+						  <td> {% if holiday_request.status == 1 %}
+							<button onclick="hol_req_confirm('approve',{{ holiday_request.id }})" name="holiday_request_action" value="Approve">Approve</button>
+							<button onclick="hol_req_confirm()" onClick="location.href='/holiday_request_action/reject/{{ holiday_request.id }}/';" name="holiday_request_action" value="Reject">Reject</button>
+							<button onclick="hol_req_confirm()" onClick="location.href='/holiday_request_action/cancel/{{ holiday_request.id }}/';" name="holiday_request_action" value="Cancel">Cancel</button>
+                               {% endif %}
+                          </td>
+						</tr>
+					  </tbody>
+					{% endfor %}
+				</table>
+			</div>
+			<div id="tabs-3">
+				<table id="table3_id" class="display">
+					  <thead>
+						<tr>
+						  <th colspan="7">SIck Leave</th>
+						</tr>
+						<tr>
+						  <th>Employee</th>
+						  <th>Recorded by</th>
+						  <th>Recorded Datetime</th>
+						  <th>Date and Time From</th>
+						  <th>Date and Time To</th>
+						  <th>Comments</th>
+						</tr>
+					  </thead>
+					{% for sick_leave in sick_leave %}
+					  <tbody> 
+						<tr>
+						  <td>{{ sick_leave.employee }}</td>
+						  <td>{{ sick_leave.recorded_by }}</td>
+						  <td>{{ sick_leave.recorded_datetime }}</td>
+						  <td>{{ sick_leave.date_from }}</td>
+						  <td>{{ sick_leave.date_to }}</td>
+						  <td>{{ sick_leave.date_to }}</td>
+						  <td>{{ sick_leave.comments }}</td>
+						</tr>
+					  </tbody>
+					{% endfor %}
+				</table>
+			</div>
+			<div id="tabs-4"><!--
+				<form action="" method="post">{% csrf_token %}-->
+				<form action="/mgnt_clocking/" method="post">{% csrf_token %}
+				  <fieldset>
+					<legend>Clock in/out Employee</legend>
+					<div></div>
+					<table>
+						<tr>
+							<td>Employee ID:</td>
+							<td> <input type="text" name="employee_id"></td>
+						</tr>
+						<tr>
+							<td>Date and Time:</td><!--
+							<td><input type="datetime" name="date_time"></td>-->
+							<td><input type="datetime" class="date start" name="clockin_date" id="clockin_date">
+							<input type="datetime" class="time start" name="clockin_time" id="clockin_time"></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><input type="submit" name="mgnt_clock_action" value="ClockIn"><input type="submit" name="mgnt_clock_action" value="ClockOut"></td>
+						</tr>
+					</table>
+				  </fieldset>
+				</form>
+			</div>
+			<div id="tabs-5">
+				<form action="/sick_leave/" method="post">{% csrf_token %}
+				  <fieldset>
+					<legend>Enter Employee Sick leave</legend>
+					<div></div>
+					<table>
+						<tr>
+							<td>Employee ID:</td>
+							<td> <input type="text" name="employee_id"></td>
+						</tr>
+						<tr>
+							<td>Date and time from:</td><!--
+							<td><input type="datetime" class="date start" name="date_from" id="date_from">
+							<input type="datetime" class="time start" name="time_from" id="time_from"></td>-->
+							<td><input type="datetime" class="date start" name="date_from" id="date_from">
+							<input type="datetime" class="time start" name="time_from" id="time_from"></td>
+						</tr>
+						<tr>
+							<td>Date and time to:</td><!--
+							<td><input type="datetime" name="date_time_to"></td>-->
+							<td><input type="datetime" class="date end" name="date_to" id="date_to">
+							<input type="datetime" class="time end"  name="time_to" id="time_to"></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><input type="submit" name="sick_leave" value="EnterSickLeave">
+						</tr>
+					</table>
+				  </fieldset>
+				</form>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+{% block javascript_footer %}
+	<script>
+		$(function() {
+			$( "#tabs" ).tabs();
+		});
+		$('#clockin_date').datepicker({"dateFormat":"yy-mm-dd"});
+		$('#clockin_time').timepicker({ 'timeFormat': 'H:i' });
+		$('#date_to').datepicker({"dateFormat":"yy-mm-dd"});
+		$('#date_from').datepicker({"dateFormat":"yy-mm-dd"});
+		$('#time_to').timepicker({ 'timeFormat': 'H:i' });
+		$('#time_from').timepicker({ 'timeFormat': 'H:i' });
+	    function hol_req_confirm(action, id){
+	    var r=confirm("Click OK to Confirm your action or Cancel to cancel your action")
+	    if (r==true){
+	      //alert("You Confirmed the Action!")
+			window.open("/holiday_request/"+action+'/'+id+'/',"_self")
+	    }
+	    else{
+	      alert("You Cancelled the Action!")
+	      }
+	    }
+	    $(document).ready(function() {
+	        oTable = $('#table1_id').dataTable({
+	            "bJQueryUI": true,
+	            "sPaginationType": "full_numbers"
+	        });
+	    } );
+		$(document).ready(function() {
+	        oTable = $('#table2_id').dataTable({
+	            "bJQueryUI": true,
+	            "sPaginationType": "full_numbers"
+	        });
+	    } );
+		$(document).ready(function() {
+	        oTable = $('#table3_id').dataTable({
+	            "bJQueryUI": true,
+	            "sPaginationType": "full_numbers"
+	        });
+	    } );
+	</script>
+{% endblock %}
+

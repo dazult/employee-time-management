@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+	{% block content %}
+	<div id="content">
+	<!-------------->
+	<div id="tabs">
+		<ul>
+			<li><a href="#tabs-1">Employee Clock In/Out</a></li>
+			<li><a href="#tabs-2">Holiday Request</a></li>
+			<li><a href="#tabs-3">Manager Login</a></li>
+		</ul>
+		<div id="tabs-1">
+			<div>{{ error_message }}</div>
+			<form action="" method="post">{% csrf_token %}
+			  <fieldset>
+				<legend>Clock In/Out</legend>
+				<div></div>
+				<table>
+					<tr>
+						<td>Employee ID:</td>
+						<td> <input type="text" name="employee_id"></td>
+					</tr>
+					<tr>
+						<td>Password:</td>
+						<td><input type="password" name="password"></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td><input type="submit" name="clock_action" value="ClockIn"><input type="submit" name="clock_action" value="ClockOut"></td>
+					</tr>
+				</table>
+			  </fieldset>
+			</form>
+		</div>
+		<div id="tabs-2">	
+			<form action="" method="post">{% csrf_token %}
+			  <fieldset>
+				<legend>Holiday Request Form</legend>
+				<div></div>
+				<table>
+					<tr>
+						<td>Employee ID:</td>
+						<td> <input type="text" name="employee_id"></td>
+					</tr>
+					<tr>
+						<td>Password:</td>
+						<td><input type="password" name="password"></td>
+					</tr>
+					<tr>
+						<td>Date and time from:</td><!--
+						<td><input type="datetime" name="date_time_from"></td>-->
+						<td><input type="datetime" class="date start" name="date_from" id="date_from">
+						<input type="datetime" class="time start" name="time_from" id="time_from"></td>
+					</tr>
+					<tr>
+						<td>Date and time to:</td><!--
+						<td><input type="datetime" name="date_time_to"></td>-->
+						<td>
+						<input type="datetime" class="date end" name="date_to" id="date_to">
+						<input type="datetime" class="time end"  name="time_to" id="time_to"></td>
+					</tr>
+
+					<tr>
+						<td></td>
+						<td><input type="submit" name="holiday_request" value="HolidayRequest">
+					</tr>
+				</table>
+			  </fieldset>
+			</form>	
+		</div>
+		<div id="tabs-3">
+			<p>tab3</p>
+		</div>
+	</div>
+	<!--------------
+	<div>{{ error_message }}</div>
+	<form action="" method="post">{% csrf_token %}
+	  <fieldset>
+		<legend>Clock In/Out</legend>
+		<div></div>
+		<table>
+			<tr>
+				<td>Employee ID:</td>
+				<td> <input type="text" name="employee_id"></td>
+			</tr>
+			<tr>
+				<td>Password:</td>
+				<td><input type="password" name="password"></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td><input type="submit" name="clock_action" value="ClockIn"><input type="submit" name="clock_action" value="ClockOut"></td>
+			</tr>
+		</table>
+	  </fieldset>
+	</form>
+	</br>
+	<form action="" method="post">{% csrf_token %}
+	  <fieldset>
+		<legend>Holiday Request Form</legend>
+		<div></div>
+		<table>
+			<tr>
+				<td>Employee ID:</td>
+				<td> <input type="text" name="employee_id"></td>
+			</tr>
+			<tr>
+				<td>Password:</td>
+				<td><input type="password" name="password"></td>
+			</tr>
+			<tr>
+				<td>Date and time from:</td>
+				<td><input type="datetime" class="date start" name="date_from" id="date_from">
+				<input type="datetime" class="time start" name="time_from" id="time_from"></td>
+			</tr>
+			<tr>
+				<td>Date and time to:</td>
+				<td>
+				<input type="datetime" class="date end" name="date_to" id="date_to">
+				<input type="datetime" class="time end"  name="time_to" id="time_to"></td>
+			</tr>
+
+			<tr>
+				<td></td>
+				<td><input type="submit" name="holiday_request" value="HolidayRequest">
+			</tr>
+		</table>
+	  </fieldset>
+	</form>	
+	</div>
+	--------------
+	<div id="tabs">
+		<ul>
+			<li><a href="#tabs-1">Employee</a></li>
+			<li><a href="#tabs-2">Holiday Request</a></li>
+			<li><a href="#tabs-3">Manager Login</a></li>
+		</ul>
+		<div id="tabs-1">
+			<p>tab1</p>
+		</div>
+		<div id="tabs-2">	
+			<p>tab2</p>
+		</div>
+		<div id="tabs-3">
+			<p>tab3</p>
+		</div>
+	</div>
+	-------------->
+{% endblock %}
+{% block javascript_footer %}
+	<script>
+		$(function() {
+			$( "#tabs" ).tabs();
+		});
+		$('#date_to').datepicker({"dateFormat":"yy-mm-dd"});
+		$('#date_from').datepicker({"dateFormat":"yy-mm-dd"});
+		$('#time_to').timepicker({ 'timeFormat': 'H:i' });
+		$('#time_from').timepicker({ 'timeFormat': 'H:i' });
+	</script>
+{% endblock %}
+
+
+
+
+
